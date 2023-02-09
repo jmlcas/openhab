@@ -4,18 +4,22 @@ services:
 
   openhab:
     image: "openhab/openhab:3.4.1"
+    container_name: openhab    
     restart: unless-stopped
     ports:
       - "8200:8080"
       - "8443:8443"
     volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"    
       - "./openhab_addons:/openhab/addons"
       - "./openhab_conf:/openhab/conf"
       - "./openhab_userdata:/openhab/userdata"
     environment:
-      CRYPTO_POLICY: "unlimited"
-      EXTRA_JAVA_OPTS: "-Duser.timezone=Europe/Madrid"
-      OPENHAB_HTTP_PORT: "8080"
-      OPENHAB_HTTPS_PORT: "8443"
-
+      - CRYPTO_POLICY=unlimited
+      - OPENHAB_HTTP_PORT=8080
+      - OPENHAB_HTTPS_PORT=8443
+      - USER_ID=1000
+      - GROUP_ID=1000      
+      
       
